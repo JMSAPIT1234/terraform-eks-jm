@@ -1,0 +1,20 @@
+1. Run the cloudformation for creation of VPC. 
+2. Install aws cli, kubectl and eksctl.
+3. Generate public-key.
+4. Upload the required docker images for calico in ECR. Follow the commands in file: ECR Steps
+5. Run the cluster.yaml. command: eksctl create cluster -f cluster.yaml (desiredCapacity should be 0)
+6. Check pods. It should be in Pending Status. kubectl get pods -n kube-system
+7. Delete the aws-node Daemonset.
+8. Run the ippool.yaml.
+8. Run the calico-ipip.yaml.
+9. Scale the nodegroup. eksctl scale nodegroup --name=ng-1 --cluster=fab-poc --nodes=1 --nodes-min=1 --nodes-max=1 --region=ap-southeast-1
+10. Run a sample application.
+
+
+Installation of aws-cli, kubectl and eksctl. (Don't forget the aws configure)
+	
+apt-get update -y && apt-get install awscli -y		
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.17.0/bin/linux/amd64/kubectl
+chmod +x ./kubectl && mv ./kubectl /usr/local/bin/kubectl		
+curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp && mv /tmp/eksctl /usr/local/bin
+
